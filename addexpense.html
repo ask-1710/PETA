@@ -82,7 +82,7 @@
                     <div class="card shadow-lg bg-white rounded">
                         <form action="/addexpense" method="POST">
                             <div class="card-header" style="text-align: center;">
-                              <span style="display:inline-flex"><h4>Expense Made</h4><img src="pay-15.png" style=" margin-left:10px; width:30px; height:30px"></span>
+                              <span style="display:inline-flex"><h4>Expense Made</h4><img src="./pay-15.png" style=" margin-left:10px; width:30px; height:30px"></span>
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
@@ -92,8 +92,9 @@
                                   <div class="mb-3">
                                     <label for="expensecategory" class="form-label">Expense Category: </label>
                                     <select name="category" id="category" class="form-control" placeholder="Select a category">
-                                        {% for category in categories %}
-                                            <option value="{{ category[0] }}">{{ category[1] }}</option>
+                                        <option value="">Select a category</option>
+                                        {% for cat in categories %}
+                                            <option value="{{ cat[0] }}">{{ cat[1] }}</option>
                                         {% endfor %}
                                     </select>
                                   </div>
