@@ -51,6 +51,23 @@ def fetch_groups():
     return groups # returns list 
 
 
+def fetch_expenses() : 
+    sql = 'SELECT * FROM PETA_EXPENSE where USERID = ' + str(USERID)
+    print(sql)
+    stmt = ibm_db.exec_immediate(conn, sql)
+    expenses = []
+    while ibm_db.fetch_row(stmt) != False:
+        category_id = ibm_db.result(stmt, "CATEGORYID")
+        category_id = str(category_id)
+        sql2 = "SELECT * FROM PETA_CATEGORY WHERE CATEGORYID = " + category_id
+        stmt2 = ibm_db.exec_immediate(conn, sql2)
+        category_name = ""
+        while ibm_db.fetch_row(stmt2) != False :
+            category_name = ibm_db.result(stmt2, "CATEGORY_NAME")
+        expenses.append([ibm_db.result(stmt, "EXPENSE_AMOUNT"), ibm_db.result(stmt, "DATE"), ibm_db.result(stmt, "DESCRIPTION"), category_name])
+    print(expenses)
+    return expenses
+
 @app.route('/', methods=['GET', 'POST'])
 @cross_origin()
 def registration():
@@ -98,7 +115,8 @@ def login():
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
-    return render_template('dashboard.html', msg='')
+    expenses = fetch_expenses()
+    return render_template('dashboard.html', expenses = expenses)
       
 @app.route('/addcategory', methods=['GET','POST'])
 def add_category():
