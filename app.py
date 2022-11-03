@@ -18,7 +18,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 # GLobal variables
 EMAIL='nunnaaarthi@gmail.com'
-USERID='13'
+USERID=13
 
 conn=ibm_db.connect("DATABASE=bludb;HOSTNAME=54a2f15b-5c0f-46df-8954-7e38e612c2bd.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud;PORT=32733;Security=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=nlg66799;PWD=CXtQLAGZ06fD0fhC;","","")
 
@@ -146,17 +146,17 @@ def add_expense():
             USERID = fetch_userID()
         
         amount_spent = request.form['amountspent']
-        expense_category = request.form['expensecategory']
+        category_id = request.form.get('category')
         description = request.form['description']
         date = request.form['date']
         groupid = request.form.get('group')
-        print(amount_spent, expense_category, description, date, groupid, USERID)
+        print(amount_spent, category_id, description, date, groupid, USERID)
 
-        sql="INSERT INTO PETA_EXPENSE(USERID, AMOUNT, CATEGORY, GROUPID, DESCRIPTION, DATE) VALUES(?,?,?,?,?,?)"
+        sql="INSERT INTO PETA_EXPENSE(USERID, EXPENSE_AMOUNT, CATEGORYID, GROUPID, DESCRIPTION, DATE) VALUES(?,?,?,?,?,?)"
         stmt=ibm_db.prepare(conn,sql)
         ibm_db.bind_param(stmt,1,USERID)
         ibm_db.bind_param(stmt,2,amount_spent)
-        ibm_db.bind_param(stmt,3,expense_category)
+        ibm_db.bind_param(stmt,3,category_id)
         ibm_db.bind_param(stmt,4,groupid)
         ibm_db.bind_param(stmt,5,description)
         ibm_db.bind_param(stmt,6,date)
