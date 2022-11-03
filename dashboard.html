@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <!-- bootstrap for the cards -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Dashboard</title>
   </head> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -55,9 +57,26 @@
                     </ul>
                 </div>
             </div>
-            <div class="col py-3" style="background-color:black">
+            <div class="col py-3" style="background-color:#00AD83">
                 <h4 style="color:red;">{{ msg }}</h4>
-                <h3 style="color:white; text-align: center;">Welcome Back! Here are your expenses:</h3>
+                <h3 style="color:black; text-align: center;">Welcome Back! Here are your expenses:</h3>
+                <ul>
+                    <!-- {% set count = 1 %} -->
+                    {% for expense in expenses %}
+                    <div class="card">
+                        <!-- <h5 class="card-header">Featured</h5> -->
+                        <div class="card-body" style="background-color : #B2D3C2;" >
+                          <h5 class="card-title">Expense #{{loop.index}}</h5>
+                          <p class="card-text">You spent Rs {{expense[0]}} on {{expense[1]}} for {{expense[2]}}</p>
+                          <br>
+                          <p class="card-text">Category of spending is {{expense[3]}}</p>
+                          <!-- {% set count = count + 1 %} -->
+                          <!-- <a href="#" class="btn btn-primary">View details</a> -->
+                          <br>
+                        </div>
+                      </div>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
