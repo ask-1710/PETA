@@ -17,8 +17,8 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # GLobal variables
-EMAIL='nunnaaarthi@gmail.com'
-USERID=13
+EMAIL=''
+USERID=''
 
 conn=ibm_db.connect("DATABASE=bludb;HOSTNAME=54a2f15b-5c0f-46df-8954-7e38e612c2bd.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud;PORT=32733;Security=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=nlg66799;PWD=CXtQLAGZ06fD0fhC;","","")
 
@@ -30,7 +30,6 @@ def fetch_categories():
         categories.append([ibm_db.result(stmt, "CATEGORYID"), ibm_db.result(stmt, "CATEGORY_NAME")])
     print(categories)
     return categories # returns list 
-
 
 def fetch_userID():
     sql = 'SELECT USERID FROM PETA_USER WHERE EMAIL=?'
@@ -49,7 +48,6 @@ def fetch_groups():
         groups.append([ibm_db.result(stmt, "GROUPID"), ibm_db.result(stmt, "GROUPNAME")])
     print(groups)
     return groups # returns list 
-
 
 def fetch_expenses() : 
     sql = 'SELECT * FROM PETA_EXPENSE where USERID = ' + str(USERID)
@@ -75,6 +73,7 @@ def registration():
         return render_template('registration.html')
     if request.method=='POST':
         email=request.form['email']
+        EMAIL=email
         password=request.form['password'] 
         wallet=request.form['wallet']   
         sql="INSERT INTO PETA_USER(EMAIL,PASSWORD,WALLET) VALUES(?,?,?)"
@@ -115,6 +114,13 @@ def login():
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
+    global USERID
+    global EMAIL
+    if USERID=='' and EMAIL=='':
+        return render_template('login.html')
+    elif USERID=='':
+        USERID=fetch_userID()
+    
     expenses = fetch_expenses()
     return render_template('dashboard.html', expenses = expenses)
       
